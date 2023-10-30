@@ -55,6 +55,7 @@ class _FightPageState extends State<FightPage> {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: FightClubColors.darkGreyText,
+                        height: 2,
                       ),
                     )),
                   ),
@@ -108,6 +109,10 @@ class _FightPageState extends State<FightPage> {
         if (fightResult != null) {
           SharedPreferences.getInstance().then((sharedPreferences) {
             sharedPreferences.setString("last_fight_result", fightResult.result);
+
+            final String key = "stats_${fightResult.result.toLowerCase()}";
+            final int value = sharedPreferences.getInt(key) ?? 0;
+            sharedPreferences.setInt(key, value + 1);
           });
         }
         centerText = _calculateCenterText(youLoseLife, enemyLoseLife);
